@@ -1,5 +1,4 @@
 import * as React from 'react';
-
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -51,37 +50,26 @@ export class AuthorsPanel extends React.Component<LicensesPanelProps> {
                                 <TableCell>Type</TableCell>
                                 <TableCell>Number of License</TableCell>
                                 <TableCell>Number of Credit</TableCell>
-                                <TableCell>Action</TableCell>
+                                <TableCell align='center'>Action</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                         {
                             Object.keys(licenses.license).map(function(key, index) {
-                                
                                 //alert(key + ': ' +  licenses.license[key])
                                 return (
                                     <TableRow>
                                         <TableCell>{key}</TableCell>
                                         <TableCell>{licenses.license[key]}</TableCell>
                                         <TableCell>{licenses.credit[key]}</TableCell>
-                                        <TableCell>
-                                            <Button size="small" color="primary" >
+                                        <TableCell align='center' >
+                                            <Button size='small' color="primary" >
                                                 Add
                                             </Button></TableCell>
                                     </TableRow>
                                 )
                             })
                         }
-
-                            {/* <TableRow>
-                                <TableCell>{licenses.license.VAppLPR}</TableCell>
-                                <TableCell>test 1</TableCell>
-                                <TableCell>Add</TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell>{licenses.license.VAppStreamerWS}</TableCell>
-                                <TableCell>test 2</TableCell>
-                            </TableRow> */}
                         </TableBody>
                     </Table>
                 </ScrollingPaper>

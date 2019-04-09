@@ -5,7 +5,8 @@
 //     /items
 //     /items/:id
 export const routes = [
-    { name: 'home', pattern: '/' },
+    { name: 'signIn', pattern: '/' },
+    { name: 'home', pattern: '/home' },
     { name: 'notFound', pattern: '/not-found' },
     { name: 'settings', pattern: '/settings' }
 ];

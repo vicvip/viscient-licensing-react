@@ -7,6 +7,7 @@ import { RouterView, ViewMap } from 'mobx-state-router';
 import { HomePage } from './pages/home-page';
 import { NotFoundPage } from './pages/not-found-page';
 import { SettingsPage } from './pages/settings-page';
+import { SignInPage } from './pages/sign-in-page';
 import { RootStore } from './stores';
 
 const styles = (theme: Theme) =>
@@ -50,7 +51,9 @@ const styles = (theme: Theme) =>
 const viewMap: ViewMap = {
     home: <HomePage />,
     notFound: <NotFoundPage />,
-    settings: <SettingsPage />
+    settings: <SettingsPage />,
+    signIn: <SignInPage />
+
 };
 
 export interface ShellProps extends WithStyles<typeof styles> {
