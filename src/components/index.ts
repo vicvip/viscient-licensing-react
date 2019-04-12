@@ -13,6 +13,7 @@ export { PanelHeader } from './basics/panel-header';
 export { CenteredMessage } from './basics/centered-message';
 export { PageTitle } from './basics/typography';
 export { BooksContainer } from './books/books-container';
+export { SignInContainer } from './sign-in/sign-in-container';
 export { Select } from './form/select';
 export { TextInput } from './form/text-input';
 export { Header } from './header/header';

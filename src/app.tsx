@@ -14,6 +14,7 @@ import { getTheme } from './components';
 import { Shell } from './shell';
 import { rootStore } from './stores';
 import { history } from './utils/history';
+import { setContext } from 'apollo-link-context'
 
 const theme = getTheme();
 
@@ -26,11 +27,25 @@ const httpLink = new HttpLink({
     uri: process.env.REACT_APP_HTTP_LINK
 });
 
+const authLink = setContext((_, { headers }) => {
+    const token = localStorage.getItem('auth_token')
+    return {
+      headers: {
+        ...headers,
+        authorization: token ? `Bearer ${token}` : '',
+      },
+    }
+  })
+  
+
 // Create a WebSocket link:
 const wsLink = new WebSocketLink({
     uri: process.env.REACT_APP_WS_LINK,
     options: {
-        reconnect: true
+        reconnect: true,
+        connectionParams: {
+            authToken: localStorage.getItem('auth_token')
+        }
     }
 });
 
@@ -48,7 +63,7 @@ const link = split(
         return kind === 'OperationDefinition' && operation === 'subscription';
     },
     wsLink,
-    httpLink
+    authLink.concat(httpLink)
 );
 
 // Create the Apollo client
