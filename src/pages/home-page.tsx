@@ -49,10 +49,13 @@ export const HomePage = withStyles(styles)(({ classes }: HomePageProps) => {
                 </div>
                 <div className={classes.rightPanel}>
                     <BooksContainer />
+                    <PublishersContainer />
                 </div>
             </div>
             {/* <div className={classes.bottomPanel}>
-                <BooksContainer />
+                <div className={classes.leftPanel}>
+                    <PublishersContainer />
+                </div>
             </div> */}
         </FullHeightVerticalContainer>
     );

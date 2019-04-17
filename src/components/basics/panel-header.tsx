@@ -10,7 +10,8 @@ const styles = (theme: Theme) =>
         root: {
             display: 'flex',
             justifyContent: 'space-between',
-            alignItems: 'center'
+            alignItems: 'center',
+            marginBottom: '1%'
         }
     });
 
@@ -24,9 +25,9 @@ export const PanelHeader = withStyles(styles)(
         return (
             <div className={classes.root}>
                 <Typography variant="h6">{title}</Typography>
-                <Button size="small" color="primary" onClick={onAddClicked}>
+                {/* <Button size="small" color="primary" onClick={onAddClicked}>
                     Add
-                </Button>
+                </Button> */}
             </div>
         );
     }

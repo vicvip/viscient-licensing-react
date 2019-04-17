@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import { DefaultQuery } from '..';
 import { MutationType } from '../../graphql-types';
 import { PublishersPanel } from './publishers-panel';
-import { GET_PUBLISHERS } from './publishers-queries';
+import { GET_HISTORY } from './../books/books-queries';
 import { PublisherMutated } from './__generated__/PublisherMutated';
 
 export class PublishersContainer extends React.Component {
@@ -12,13 +12,13 @@ export class PublishersContainer extends React.Component {
 
     render() {
         return (
-            <DefaultQuery query={GET_PUBLISHERS}>
+            <DefaultQuery query={GET_HISTORY} variables={{ "username": "viscient" }}>
                 {({ data, subscribeToMore }) => {
                     // Subscribe to publisher mutations - only once
                     if (!this.unsubscribe) {
-                        this.unsubscribe = subscribeToPublisherMutations(
-                            subscribeToMore
-                        );
+                        // this.unsubscribe = subscribeToPublisherMutations(
+                        //     subscribeToMore
+                        // );
                     }
 
                     return <PublishersPanel data={data} />;

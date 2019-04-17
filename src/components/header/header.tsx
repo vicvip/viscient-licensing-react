@@ -55,8 +55,7 @@ const HeaderContent = withStyles(styles)(
                             color="inherit"
                             className={classes.title}
                         >
-                            {/* {this.props.username} */}
-                            Viscient Dashboard
+                            License Dashboard
                         </Typography>
                         <SettingsButton />
                         <LogoutButton />

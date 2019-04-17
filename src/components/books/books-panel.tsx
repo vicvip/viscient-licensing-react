@@ -53,8 +53,11 @@ export class BooksPanel extends React.Component<HistoryPanelProps> {
                     <Table>
                         <TableHead>
                             <TableRow>
-                                <TableCell>Date</TableCell>
-                                <TableCell>Detail</TableCell>
+                                <TableCell>Date Created</TableCell>
+                                <TableCell>User</TableCell>
+                                <TableCell>Action Type</TableCell>
+                                <TableCell>Domain Name</TableCell>
+                                <TableCell>Expiry Date</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -62,15 +65,10 @@ export class BooksPanel extends React.Component<HistoryPanelProps> {
                                 history.historyDetail.map(h => (
                                         <TableRow>
                                             <TableCell>{h.dateCreated}</TableCell>
-                                            <TableCell>
-                                                {h.username} has {h.actionType} 
-                                                { Object.keys(h.items).map((key,index)  => {
-                                                        if(h.items[key] != null) {
-                                                            return ' ' + key + ': ' + h.items[key] + ', '
-                                                        }
-                                                    }
-                                                )}
-                                            </TableCell>
+                                            <TableCell>{h.username}</TableCell>
+                                            <TableCell>{h.actionType}</TableCell>
+                                            <TableCell>{h.domainName}</TableCell>
+                                            <TableCell>{h.dateExpired}</TableCell>
                                         </TableRow>
                                     )
                                 )

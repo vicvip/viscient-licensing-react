@@ -13,6 +13,7 @@ import { PanelHeader, ScrollingPaper } from '..';
 import { PublisherDialog } from './publisher-dialog';
 import { GET_PUBLISHERS } from './publishers-queries';
 import { GetPublishers } from './__generated__/GetPublishers';
+import Button from '@material-ui/core/Button';
 
 export interface PublishersPanelProps {
     data: GetPublishers;
@@ -28,24 +29,37 @@ export class PublishersPanel extends React.Component<PublishersPanelProps> {
 
     public render() {
         const {
-            data: { publishers }
+            data: {   }
         } = this.props;
 
         return (
             <React.Fragment>
                 <PanelHeader
-                    title="Publishers"
+                    title="POC License"
                     onAddClicked={this.editNewPublisher}
                 />
                 <ScrollingPaper>
                     <Table>
                         <TableHead>
                             <TableRow>
-                                <TableCell>Name</TableCell>
+                                <TableCell>Number of POC License left this month:</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {publishers.map(publisher => (
+                        <TableRow>
+                            <TableCell>5</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <Button variant="outlined" size='large' color="primary" style={{marginLeft:'2%', marginTop: '2%'}}>
+                                Extend POC machine
+                            </Button>
+                        </TableRow>
+                        <TableRow>
+                            <Button variant="outlined" size='large' color="primary" style={{marginLeft:'2%', marginTop: '2%'}}>
+                                Activation
+                            </Button>
+                        </TableRow>
+                            {/* {publishers.map(publisher => (
                                 <TableRow
                                     hover
                                     key={publisher.id}
@@ -55,7 +69,7 @@ export class PublishersPanel extends React.Component<PublishersPanelProps> {
                                 >
                                     <TableCell>{publisher.name}</TableCell>
                                 </TableRow>
-                            ))}
+                            ))} */}
                         </TableBody>
                     </Table>
                 </ScrollingPaper>

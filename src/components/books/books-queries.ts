@@ -34,20 +34,9 @@ export const GET_HISTORY = gql`
             historyDetail{
                 username
                 actionType
+                domainName
                 dateCreated
-                items{
-                    VAppLPR
-                    VAppStreamerWS
-                    VBrainObject
-                    VAppTrafficIntensity
-                    VAppPeopleCounter
-                    VAppStreamerTornado
-                    VAppIllegalPark
-                    VAppCounter
-                    VAppFP
-                    VAppAnalyticsTornado
-                    VAppStreamerEventPush
-                }
+                dateExpired
             }
         }
     }

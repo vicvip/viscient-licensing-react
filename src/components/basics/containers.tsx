@@ -36,7 +36,8 @@ const styles = (theme: Theme) =>
         },
         scrollingPaper: {
             flex: 1,
-            overflow: 'auto'
+            overflow: 'auto',
+            marginBottom: '5%'
         }
     });
 

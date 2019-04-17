@@ -41,7 +41,7 @@ export class AuthorsPanel extends React.Component<LicensesPanelProps> {
         return (
             <React.Fragment>
                 <PanelHeader
-                    title="License"
+                    title="Paid License"
                     onAddClicked={this.editNewAuthor}
                 />
                 <ScrollingPaper>
@@ -52,7 +52,7 @@ export class AuthorsPanel extends React.Component<LicensesPanelProps> {
                                 <TableCell>Type</TableCell>
                                 <TableCell>Number of License</TableCell>
                                 {/* <TableCell>Number of Credit</TableCell> */}
-                                <TableCell align='center'>Action</TableCell>
+                                {/* <TableCell align='center'>Action</TableCell> */}
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -64,11 +64,11 @@ export class AuthorsPanel extends React.Component<LicensesPanelProps> {
                                         <TableCell>{key}</TableCell>
                                         <TableCell>{licenses.license[key]}</TableCell>
                                         {/* <TableCell>{licenses.credit[key]}</TableCell> */}
-                                        <TableCell align='center' >
+                                        {/* <TableCell align='center' >
                                             <Button size='small' color="primary" >
                                                 Add
                                             </Button>
-                                        </TableCell>
+                                        </TableCell> */}
                                     </TableRow>
                                 )
                             })
