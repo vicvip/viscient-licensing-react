@@ -24,3 +24,31 @@ export const GET_BOOKS = gql`
 
     ${BOOK_FRAGMENT}
 `;
+
+export const GET_HISTORY = gql`
+    query History($username: String!){
+        history(username: $username){
+            username
+            message
+            response
+            historyDetail{
+                username
+                actionType
+                dateCreated
+                items{
+                    VAppLPR
+                    VAppStreamerWS
+                    VBrainObject
+                    VAppTrafficIntensity
+                    VAppPeopleCounter
+                    VAppStreamerTornado
+                    VAppIllegalPark
+                    VAppCounter
+                    VAppFP
+                    VAppAnalyticsTornado
+                    VAppStreamerEventPush
+                }
+            }
+        }
+    }
+`;

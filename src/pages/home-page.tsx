@@ -44,16 +44,16 @@ export const HomePage = withStyles(styles)(({ classes }: HomePageProps) => {
         <FullHeightVerticalContainer>
             <Header />
             <div className={classes.topPanel}>
-                {/* <div className={classes.leftPanel}>
-                    <PublishersContainer />
-                </div> */}
-                <div className={classes.rightPanel}>
+                <div className={classes.leftPanel}>
                     <AuthorsContainer />
                 </div>
+                <div className={classes.rightPanel}>
+                    <BooksContainer />
+                </div>
             </div>
-            <div className={classes.bottomPanel}>
+            {/* <div className={classes.bottomPanel}>
                 <BooksContainer />
-            </div>
+            </div> */}
         </FullHeightVerticalContainer>
     );
 });

@@ -8,36 +8,24 @@ import { GET_PUBLISHERS } from '../publishers/publishers-queries';
 import { BooksPanel } from './books-panel';
 import { BOOK_FRAGMENT, GET_BOOKS } from './books-queries';
 import { BookMutated } from './__generated__/BookMutated';
+import { GET_HISTORY } from './books-queries';
+import {GET_LICENSES} from './../authors/authors-queries';
 
 export class BooksContainer extends React.Component {
     unsubscribe = null;
 
     render() {
+        
         return (
-            <DefaultQuery query={GET_BOOKS}>
-                {({ data: dataBooks, subscribeToMore }) => {
-                    // Subscribe to book mutations - only once
+            <DefaultQuery query={GET_HISTORY} variables={{ "username": "viscient" }}>
+                {({ data, subscribeToMore }) => {
+                    // Subscribe to author mutations - only once
                     if (!this.unsubscribe) {
-                        this.unsubscribe = subscribeToBookMutations(
-                            subscribeToMore
-                        );
+                        // this.unsubscribe = subscribeToBookMutations(
+                        //     subscribeToMore
+                        // );
                     }
-
-                    return (
-                        <DefaultQuery query={GET_AUTHORS}>
-                            {({ data: dataAuthors }) => (
-                                <DefaultQuery query={GET_PUBLISHERS}>
-                                    {({ data: dataPublishers }) => (
-                                        <BooksPanel
-                                            dataBooks={dataBooks}
-                                            dataAuthors={dataAuthors}
-                                            dataPublishers={dataPublishers}
-                                        />
-                                    )}
-                                </DefaultQuery>
-                            )}
-                        </DefaultQuery>
-                    );
+                    return <BooksPanel data={data} />;
                 }}
             </DefaultQuery>
         );

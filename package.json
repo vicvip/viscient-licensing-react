@@ -1,5 +1,5 @@
 {
-  "name": "apollo-bookstore-client",
+  "name": "viscient-licensing-graphql",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,7 +9,8 @@
     "eject": "react-scripts eject",
     "gql:schema": "apollo service:download -c apollo.config.js",
     "gql:types": "apollo client:codegen -c apollo.config.js --localSchemaFile=schema.json --target=typescript --globalTypesFile=src/graphql-types.ts",
-    "format": "prettier --write 'src/**/*.ts*'"
+    "format": "prettier --write 'src/**/*.ts*'",
+    "now-build": "react-scripts build"
   },
   "dependencies": {
     "@material-ui/core": "^3.8.3",
@@ -26,6 +27,7 @@
     "graphql": "^14.0.2",
     "graphql-tag": "^2.10.0",
     "history": "^4.7.2",
+    "jsonwebtoken": "^8.5.1",
     "mobx": "^4.8.0",
     "mobx-react": "^5.4.3",
     "mobx-state-router": "^4.0.3",
@@ -35,6 +37,8 @@
     "react-router-dom": "^5.0.0",
     "react-transition-group": "^2.9.0",
     "subscriptions-transport-ws": "^0.9.15",
+    "tslint": "^5.15.0",
+    "tslint-config-airbnb": "^5.11.1",
     "yup": "^0.26.6"
   },
   "devDependencies": {
@@ -46,7 +50,7 @@
     "@types/react": "16.7.18",
     "@types/react-dom": "16.0.11",
     "apollo": "^2.8.1",
-    "prettier": "^1.15.3",
+    "prettier": "^1.17.0",
     "react-scripts": "^2.1.8",
     "typescript": "3.2.2"
   },

@@ -1,20 +1,12 @@
 import gql from 'graphql-tag';
 
 export const VALIDATE_LOGIN = gql`
-    mutation{
-        login(username: "viscient", password: "viscient"){
-            response
-            message
-            user
-            token
-        }
+  mutation Login($username: String!, $password: String!) {
+    login(username: $username, password: $password) {
+      response
+      message
+      username
+      token
     }
+  }
 `;
-
-// query LoginQuery($username: String!, $password: String!){
-//     login(username: $username, password: $password){
-//         user
-//         response
-//         message
-//     }
-// }

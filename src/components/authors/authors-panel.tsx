@@ -15,6 +15,7 @@ import { GET_AUTHORS, GET_LICENSES } from './authors-queries';
 import { GetAuthors } from './__generated__/GetAuthors';
 import { GetLicenses } from './__generated__/GetLicense';
 import { forEachOf, each } from 'async';
+import { RootStore } from '../../stores';
 
 export interface AuthorsPanelProps {
     data: GetAuthors;
@@ -47,9 +48,10 @@ export class AuthorsPanel extends React.Component<LicensesPanelProps> {
                     <Table>
                         <TableHead>
                             <TableRow>
+                                {/* {alert(localStorage.getItem('auth_token'))} */}
                                 <TableCell>Type</TableCell>
                                 <TableCell>Number of License</TableCell>
-                                <TableCell>Number of Credit</TableCell>
+                                {/* <TableCell>Number of Credit</TableCell> */}
                                 <TableCell align='center'>Action</TableCell>
                             </TableRow>
                         </TableHead>
@@ -61,11 +63,12 @@ export class AuthorsPanel extends React.Component<LicensesPanelProps> {
                                     <TableRow>
                                         <TableCell>{key}</TableCell>
                                         <TableCell>{licenses.license[key]}</TableCell>
-                                        <TableCell>{licenses.credit[key]}</TableCell>
+                                        {/* <TableCell>{licenses.credit[key]}</TableCell> */}
                                         <TableCell align='center' >
                                             <Button size='small' color="primary" >
                                                 Add
-                                            </Button></TableCell>
+                                            </Button>
+                                        </TableCell>
                                     </TableRow>
                                 )
                             })

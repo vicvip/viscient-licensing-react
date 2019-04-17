@@ -20,6 +20,7 @@ import { GetBooks } from './__generated__/GetBooks';
 import { CreateBookVariables } from './__generated__/CreateBook';
 import { UpdateBookVariables } from './__generated__/UpdateBook';
 import { SetBookAuthorsVariables } from './__generated__/SetBookAuthors';
+import { GetHistory } from './__generated__/GetHistory';
 
 export interface BooksPanelProps {
     dataBooks: GetBooks;
@@ -27,8 +28,12 @@ export interface BooksPanelProps {
     dataPublishers: GetPublishers;
 }
 
+export interface HistoryPanelProps {
+    data: GetHistory;
+}
+
 @observer
-export class BooksPanel extends React.Component<BooksPanelProps> {
+export class BooksPanel extends React.Component<HistoryPanelProps> {
     @observable showBookDialog = false;
     @observable showAuthorsDialog = false;
 
@@ -38,26 +43,39 @@ export class BooksPanel extends React.Component<BooksPanelProps> {
 
     public render() {
         const {
-            dataBooks: { books },
-            dataAuthors: { authors },
-            dataPublishers: { publishers }
+            data: { history }
         } = this.props;
 
         return (
             <React.Fragment>
-                <PanelHeader title="Books" onAddClicked={this.editNewBook} />
+                <PanelHeader title="History" onAddClicked={this.editNewBook} />
                 <ScrollingPaper>
                     <Table>
                         <TableHead>
                             <TableRow>
-                                <TableCell>Name</TableCell>
-                                <TableCell>Publisher</TableCell>
-                                <TableCell>Authors</TableCell>
-                                <TableCell />
+                                <TableCell>Date</TableCell>
+                                <TableCell>Detail</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {books.map(book => (
+                            {
+                                history.historyDetail.map(h => (
+                                        <TableRow>
+                                            <TableCell>{h.dateCreated}</TableCell>
+                                            <TableCell>
+                                                {h.username} has {h.actionType} 
+                                                { Object.keys(h.items).map((key,index)  => {
+                                                        if(h.items[key] != null) {
+                                                            return ' ' + key + ': ' + h.items[key] + ', '
+                                                        }
+                                                    }
+                                                )}
+                                            </TableCell>
+                                        </TableRow>
+                                    )
+                                )
+                            }
+                            {/* {books.map(book => (
                                 <TableRow
                                     hover
                                     key={book.id}
@@ -84,80 +102,11 @@ export class BooksPanel extends React.Component<BooksPanelProps> {
                                         </Button>
                                     </TableCell>
                                 </TableRow>
-                            ))}
+                            ))} */}
                         </TableBody>
                     </Table>
                 </ScrollingPaper>
 
-                {this.showBookDialog && this.isNewBook && (
-                    <Mutation mutation={CREATE_BOOK}>
-                        {createBook => (
-                            <BookDialog
-                                book={this.editedBook}
-                                publishers={publishers}
-                                onSave={book => {
-                                    const variables: CreateBookVariables = {
-                                        book: {
-                                            name: book.name,
-                                            publisherId: book.publisherId
-                                        }
-                                    };
-                                    createBook({
-                                        variables,
-                                        // Update BooksQuery in Apollo cache
-                                        // Needed only in this "Create" case
-                                        update: updateBooksQuery
-                                    });
-                                    this.hideBookDialog();
-                                }}
-                                onCancel={this.hideBookDialog}
-                            />
-                        )}
-                    </Mutation>
-                )}
-
-                {this.showBookDialog && !this.isNewBook && (
-                    <Mutation mutation={UPDATE_BOOK}>
-                        {updateBook => (
-                            <BookDialog
-                                book={this.editedBook}
-                                publishers={publishers}
-                                onSave={book => {
-                                    const variables: UpdateBookVariables = {
-                                        bookId: book.id,
-                                        book: {
-                                            name: book.name,
-                                            publisherId: book.publisherId
-                                        }
-                                    };
-                                    updateBook({ variables });
-                                    this.hideBookDialog();
-                                }}
-                                onCancel={this.hideBookDialog}
-                            />
-                        )}
-                    </Mutation>
-                )}
-
-                {this.showAuthorsDialog && (
-                    <Mutation mutation={SET_BOOK_AUTHORS}>
-                        {setBookAuthors => (
-                            <AuthorsDialog
-                                book={this.editedBook}
-                                authors={authors}
-                                onSave={(bookId, authorIds) => {
-                                    const variables: SetBookAuthorsVariables = {
-                                        bookId,
-                                        authorIds
-                                    };
-                                    setBookAuthors({ variables });
-                                    this.hideAuthorsDialog();
-                                }}
-                                onCancel={this.hideAuthorsDialog}
-                            />
-                        )}
-                    </Mutation>
-                )}
             </React.Fragment>
         );
     }
