@@ -34,12 +34,12 @@ export interface HistoryPanelProps {
 
 @observer
 export class BooksPanel extends React.Component<HistoryPanelProps> {
-    @observable showBookDialog = false;
-    @observable showAuthorsDialog = false;
+    // @observable showBookDialog = false;
+    // @observable showAuthorsDialog = false;
 
-    @observable isNewBook;
+    // @observable isNewBook;
 
-    @observable editedBook;
+    // @observable editedBook;
 
     public render() {
         const {
@@ -48,7 +48,7 @@ export class BooksPanel extends React.Component<HistoryPanelProps> {
 
         return (
             <React.Fragment>
-                <PanelHeader title="History" onAddClicked={this.editNewBook} />
+                <PanelHeader title="History" onAddClicked={null} />
                 <ScrollingPaper>
                     <Table>
                         <TableHead>
@@ -109,40 +109,40 @@ export class BooksPanel extends React.Component<HistoryPanelProps> {
         );
     }
 
-    @action
-    editNewBook = () => {
-        this.showBookDialog = true;
-        this.isNewBook = true;
-        this.editedBook = { name: '', publisherId: '' };
-    };
+    // @action
+    // editNewBook = () => {
+    //     this.showBookDialog = true;
+    //     this.isNewBook = true;
+    //     this.editedBook = { name: '', publisherId: '' };
+    // };
 
-    @action
-    editBook = book => {
-        this.showBookDialog = true;
-        this.isNewBook = false;
-        this.editedBook = Object.assign({}, book, {
-            publisherId: book.publisher.id
-        });
-    };
+    // @action
+    // editBook = book => {
+    //     this.showBookDialog = true;
+    //     this.isNewBook = false;
+    //     this.editedBook = Object.assign({}, book, {
+    //         publisherId: book.publisher.id
+    //     });
+    // };
 
-    @action
-    editAuthors = book => {
-        this.showAuthorsDialog = true;
-        this.isNewBook = false;
-        this.editedBook = Object.assign({}, book, {
-            publisherId: book.publisher.id
-        });
-    };
+    // @action
+    // editAuthors = book => {
+    //     this.showAuthorsDialog = true;
+    //     this.isNewBook = false;
+    //     this.editedBook = Object.assign({}, book, {
+    //         publisherId: book.publisher.id
+    //     });
+    // };
 
-    @action
-    hideBookDialog = () => {
-        this.showBookDialog = false;
-    };
+    // @action
+    // hideBookDialog = () => {
+    //     this.showBookDialog = false;
+    // };
 
-    @action
-    hideAuthorsDialog = () => {
-        this.showAuthorsDialog = false;
-    };
+    // @action
+    // hideAuthorsDialog = () => {
+    //     this.showAuthorsDialog = false;
+    // };
 }
 
 function findBook(books, bookId) {

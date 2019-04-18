@@ -6,13 +6,23 @@ import { MutationType } from '../../graphql-types';
 import { PublishersPanel } from './publishers-panel';
 import { GET_HISTORY } from './../books/books-queries';
 import { PublisherMutated } from './__generated__/PublisherMutated';
+import { inject } from 'mobx-react';
+import { UserObject } from '../../stores';
+import { observer } from 'mobx-react';
 
-export class PublishersContainer extends React.Component {
+interface UserObjectProps {
+    userObject?: UserObject
+}
+
+@inject('userObject')
+@observer
+export class PublishersContainer extends React.Component<UserObjectProps> {
     unsubscribe = null;
 
     render() {
+        const { userObject } = this.props;
         return (
-            <DefaultQuery query={GET_HISTORY} variables={{ "username": "viscient" }}>
+            <DefaultQuery query={GET_HISTORY} variables={{ "username": userObject.username }}>
                 {({ data, subscribeToMore }) => {
                     // Subscribe to publisher mutations - only once
                     if (!this.unsubscribe) {

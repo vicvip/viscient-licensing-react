@@ -12,7 +12,7 @@ import { HistoryAdapter } from 'mobx-state-router';
 import { ApolloProvider } from 'react-apollo';
 import { getTheme } from './components';
 import { Shell } from './shell';
-import { rootStore } from './stores';
+import { rootStore, userObject } from './stores';
 import { history } from './utils/history';
 import { setContext } from 'apollo-link-context'
 
@@ -77,7 +77,7 @@ export class App extends React.Component {
         return (
             <ApolloProvider client={client}>
                 <MuiThemeProvider theme={theme}>
-                    <Provider rootStore={rootStore}>
+                    <Provider rootStore={rootStore} userObject={userObject}>
                         <Shell />
                     </Provider>
                 </MuiThemeProvider>

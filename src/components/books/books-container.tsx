@@ -10,14 +10,23 @@ import { BOOK_FRAGMENT, GET_BOOKS } from './books-queries';
 import { BookMutated } from './__generated__/BookMutated';
 import { GET_HISTORY } from './books-queries';
 import {GET_LICENSES} from './../authors/authors-queries';
+import { inject } from 'mobx-react';
+import { UserObject } from '../../stores';
+import { observer } from 'mobx-react';
 
-export class BooksContainer extends React.Component {
+interface UserObjectProps {
+    userObject?: UserObject
+}
+
+@inject('userObject')
+@observer
+export class BooksContainer extends React.Component<UserObjectProps> {
     unsubscribe = null;
 
     render() {
-        
+        const { userObject } = this.props;
         return (
-            <DefaultQuery query={GET_HISTORY} variables={{ "username": "viscient" }}>
+            <DefaultQuery query={GET_HISTORY} variables={{ "username": userObject.username }}>
                 {({ data, subscribeToMore }) => {
                     // Subscribe to author mutations - only once
                     if (!this.unsubscribe) {

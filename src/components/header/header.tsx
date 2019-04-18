@@ -7,8 +7,9 @@ import Typography from '@material-ui/core/Typography';
 import { HomeButton } from './home-button';
 import { SettingsButton } from './settings-button';
 import { LogoutButton } from './logout-button';
-import { inject } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import { RootStore } from '../../stores';
+import { observable } from 'mobx';
 
 const styles = () =>
     createStyles({
@@ -32,8 +33,9 @@ const HeaderContent = withStyles(styles)(
         //     }
         // }
         authenticateUser = () => {
-            console.log(this.props)
+            //console.log(this.props)
             //console.log(this.props.username)
+
             const token = localStorage.getItem('auth_token');
             if(token === null || token == null){
                 const { rootStore } = this.props;
@@ -66,7 +68,27 @@ const HeaderContent = withStyles(styles)(
     }
 );
 
-export const Header = inject('rootStore')(HeaderContent);
+export const HeaderPanel = inject('rootStore', 'userObject')(HeaderContent);
+
+
+@observer
+export class Header extends React.Component {
+
+    @observable userName = 'test';
+    
+    public render() {
+    //   const {
+    //     userName: { userName }
+    //   } = this.props;
+
+    
+      return(
+        <React.Fragment>
+          <HeaderPanel />
+        </React.Fragment>
+      )
+    }
+}
 
 
 // import * as React from 'react';
