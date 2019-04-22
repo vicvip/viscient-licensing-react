@@ -1,18 +1,9 @@
 import gql from 'graphql-tag';
 
-export const GET_AUTHORS = gql`
-    query GetAuthors {
-        authors {
-            id
-            name
-        }
-    }
-`;
-
 export const GET_LICENSES = gql`
-    query{
-        licenses(name: "viscient"){
-            credit {
+    query Licenses($username: String){
+        licenses(username: $username){
+            license{
                 VAppLPR
                 VAppStreamerWS
                 VBrainObject
@@ -25,7 +16,7 @@ export const GET_LICENSES = gql`
                 VAppAnalyticsTornado
                 VAppStreamerEventPush
             }
-            license {
+            credit{
                 VAppLPR
                 VAppStreamerWS
                 VBrainObject

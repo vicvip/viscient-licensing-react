@@ -1,7 +1,7 @@
 /* tslint:disable */
 // This file was automatically generated and should not be edited.
 
-import { BookInput } from './../../../graphql-types';
+import { BookInput } from '../../../graphql-types';
 
 // ====================================================
 // GraphQL mutation operation: CreateBook

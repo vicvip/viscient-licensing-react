@@ -8,8 +8,9 @@ import { HomeButton } from './home-button';
 import { SettingsButton } from './settings-button';
 import { LogoutButton } from './logout-button';
 import { inject, observer } from 'mobx-react';
-import { RootStore } from '../../stores';
+import { RootStore, UserObject } from '../../stores';
 import { observable } from 'mobx';
+import { getUserId } from '../../utils/verify'
 
 const styles = () =>
     createStyles({
@@ -19,33 +20,18 @@ const styles = () =>
         }
     });
 
-export interface HeaderProps extends WithStyles<typeof styles> {
+export interface HeaderProps {
     rootStore?: RootStore;
+    userObject?: UserObject;
 }
+
+export interface HeaderContainer extends WithStyles<typeof styles> {}
 
 //export const Header = withStyles(styles)(
 const HeaderContent = withStyles(styles)(
-    class extends React.Component<HeaderProps> {
-        // constructor(props){
-        //     super(props);
-        //     this.state = {
-        //         username: this.props.username
-        //     }
-        // }
-        authenticateUser = () => {
-            //console.log(this.props)
-            //console.log(this.props.username)
-
-            const token = localStorage.getItem('auth_token');
-            if(token === null || token == null){
-                const { rootStore } = this.props;
-                const { routerStore } = rootStore!;
-                routerStore.goTo('signIn');
-            }
-        }
-
+    class extends React.Component<HeaderContainer> {
         public render() {
-            this.authenticateUser();
+            //this.authenticateUser();
             const { classes } = this.props;
             
             return (
@@ -68,58 +54,31 @@ const HeaderContent = withStyles(styles)(
     }
 );
 
-export const HeaderPanel = inject('rootStore', 'userObject')(HeaderContent);
-
-
+@inject('rootStore', 'userObject')
 @observer
-export class Header extends React.Component {
-
-    @observable userName = 'test';
-    
+export class Header extends React.Component<HeaderProps> {
     public render() {
-    //   const {
-    //     userName: { userName }
-    //   } = this.props;
+        const { userObject, rootStore } = this.props;
+        var authUser = authenticateUser(userObject, rootStore);
+        userObject.username = authUser;
 
-    
-      return(
-        <React.Fragment>
-          <HeaderPanel />
-        </React.Fragment>
-      )
+        return(
+            <React.Fragment>
+                <HeaderContent />
+            </React.Fragment>
+        )
     }
 }
 
-
-// import * as React from 'react';
-
-// import IconButton from '@material-ui/core/IconButton';
-// import Settings from '@material-ui/icons/Settings';
-// import { inject } from 'mobx-react';
-// import { RootStore } from '../../stores';
-
-// export interface SettingsButtonProps {
-//     rootStore?: RootStore;
-// }
-
-// export const SettingsButton = inject('rootStore')(
-//     class extends React.Component<SettingsButtonProps> {
-//         public render() {
-//             return (
-//                 <IconButton
-//                     color="inherit"
-//                     onClick={this.handleSettingsClicked}
-//                     aria-label="Settings"
-//                 >
-//                     <Settings />
-//                 </IconButton>
-//             );
-//         }
-
-//         handleSettingsClicked = () => {
-//             const { rootStore } = this.props;
-//             const { routerStore } = rootStore!;
-//             routerStore.goTo('settings');
-//         };
-//     }
-// );
+function authenticateUser(userObject, rootStore){
+    const token = localStorage.getItem('auth_token');
+    if(token === null || token == null){
+        //const { rootStore } = this.props;
+        const { routerStore } = rootStore!;
+        routerStore.goTo('signIn');
+    } 
+    else {
+        userObject.username = getUserId(token)
+    }
+    return userObject.username;
+}

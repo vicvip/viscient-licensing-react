@@ -3,8 +3,8 @@ import * as React from 'react';
 import gql from 'graphql-tag';
 import { DefaultQuery } from '..';
 import { MutationType } from '../../graphql-types';
-import { PublishersPanel } from './publishers-panel';
-import { GET_HISTORY } from './../books/books-queries';
+import { PocLicensePanel } from './poc-license-panel';
+import { GET_HISTORY } from '../history/history-queries';
 import { PublisherMutated } from './__generated__/PublisherMutated';
 import { inject } from 'mobx-react';
 import { UserObject } from '../../stores';
@@ -16,25 +16,25 @@ interface UserObjectProps {
 
 @inject('userObject')
 @observer
-export class PublishersContainer extends React.Component<UserObjectProps> {
+export class PocLicenseContainer extends React.Component<UserObjectProps> {
     unsubscribe = null;
 
     render() {
         const { userObject } = this.props;
-        return (
-            <DefaultQuery query={GET_HISTORY} variables={{ "username": userObject.username }}>
-                {({ data, subscribeToMore }) => {
-                    // Subscribe to publisher mutations - only once
-                    if (!this.unsubscribe) {
-                        // this.unsubscribe = subscribeToPublisherMutations(
-                        //     subscribeToMore
-                        // );
-                    }
+         return  <PocLicensePanel />;//(
+        //     <DefaultQuery query={GET_HISTORY} variables={{ "username": userObject.username }}>
+        //         {({ data, subscribeToMore }) => {
+        //             // Subscribe to publisher mutations - only once
+        //             if (!this.unsubscribe) {
+        //                 // this.unsubscribe = subscribeToPublisherMutations(
+        //                 //     subscribeToMore
+        //                 // );
+        //             }
 
-                    return <PublishersPanel data={data} />;
-                }}
-            </DefaultQuery>
-        );
+        //             return <PublishersPanel data={data} />;
+        //         }}
+        //     </DefaultQuery>
+        // );
     }
 
     componentWillUnmount() {

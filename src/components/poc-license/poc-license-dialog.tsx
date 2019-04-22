@@ -25,25 +25,25 @@ interface SavePublisherFunc {
     (publisher: any): void;
 }
 
-export interface PublisherDialogProps extends WithStyles<typeof styles> {
-    publisher: any;
+export interface PocLicenseDialogProps extends WithStyles<typeof styles> {
+    isActivation: any;
     onSave: SavePublisherFunc;
     onCancel: React.EventHandler<any>;
 }
 
-export const PublisherDialog = withStyles(styles)(
-    class extends React.Component<PublisherDialogProps> {
+export const PocLicenseDialog = withStyles(styles)(
+    class extends React.Component<PocLicenseDialogProps> {
         render() {
-            const { classes, publisher, onSave, onCancel } = this.props;
-
+            const { classes, isActivation, onSave, onCancel } = this.props;
             const validationSchema = yup.object().shape({
                 name: yup.string().required()
             });
-
+            console.log(this.props);
             return (
+                
                 <Formik
-                    initialValues={publisher}
-                    validationSchema={validationSchema}
+                    initialValues={isActivation}
+                    //validationSchema={validationSchema}
                     onSubmit={(values, { setSubmitting }) => {
                         onSave(values);
                         setSubmitting(false);
@@ -54,26 +54,24 @@ export const PublisherDialog = withStyles(styles)(
                             classes={{ paper: classes.dialogPaper }}
                         >
                             <DialogTitle>
-                                {publisher.id
-                                    ? 'Edit Publisher'
-                                    : 'Create Publisher'}
+                                {isActivation ? 'Remote POC Activation' : 'Extend POC License'}
                             </DialogTitle>
                             <DialogContent className={classes.content}>
                                 <Form>
                                     <Field
-                                        name="name"
+                                        name="domainName"
                                         component={TextInput}
-                                        label="Name"
+                                        label="Domain Name"
                                         fullWidth
                                     />
                                 </Form>
                             </DialogContent>
                             <DialogActions>
-                                <Button onClick={onCancel} color="secondary">
+                                <Button variant="outlined" onClick={onCancel} color="secondary">
                                     CANCEL
                                 </Button>
-                                <Button onClick={submitForm} color="primary">
-                                    SAVE
+                                <Button variant="outlined" onClick={submitForm} color="primary">
+                                    {isActivation ? 'ACTIVATE' : 'EXTEND'}
                                 </Button>
                             </DialogActions>
                         </Dialog>

@@ -1,7 +1,7 @@
 /* tslint:disable */
 // This file was automatically generated and should not be edited.
 
-import { MutationType } from './../../../graphql-types';
+import { MutationType } from '../../../graphql-types';
 
 // ====================================================
 // GraphQL subscription operation: PublisherMutated
