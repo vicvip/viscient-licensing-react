@@ -12,6 +12,7 @@ export const rootStore = new RootStore();
 
 export class UserObject {
     @observable username = "";
+    @observable accountType = "";
 }
 
 export const userObject = new UserObject();

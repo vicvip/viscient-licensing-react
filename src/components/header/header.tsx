@@ -25,14 +25,17 @@ export interface HeaderProps {
     userObject?: UserObject;
 }
 
-export interface HeaderContainer extends WithStyles<typeof styles> {}
+export interface HeaderContainer extends WithStyles<typeof styles> {
+    username?: String;
+    accountType?: String;
+}
 
 //export const Header = withStyles(styles)(
 const HeaderContent = withStyles(styles)(
     class extends React.Component<HeaderContainer> {
         public render() {
             //this.authenticateUser();
-            const { classes } = this.props;
+            const { classes, username, accountType } = this.props;
             
             return (
                 <AppBar position="static">
@@ -43,7 +46,7 @@ const HeaderContent = withStyles(styles)(
                             color="inherit"
                             className={classes.title}
                         >
-                            License Dashboard
+                            Licensing Dashboard {accountType === 'admin' ? `(Admin Access) - ${username}` : `- ${username}`}
                         </Typography>
                         <SettingsButton />
                         <LogoutButton />
@@ -64,7 +67,7 @@ export class Header extends React.Component<HeaderProps> {
 
         return(
             <React.Fragment>
-                <HeaderContent />
+                <HeaderContent username={userObject.username} accountType={userObject.accountType}/>
             </React.Fragment>
         )
     }
@@ -78,7 +81,9 @@ function authenticateUser(userObject, rootStore){
         routerStore.goTo('signIn');
     } 
     else {
-        userObject.username = getUserId(token)
+        userObject.username = getUserId(token);
+        userObject.accountType = localStorage.getItem('type');
+        //TODO - auth account type in local storage
     }
     return userObject.username;
 }

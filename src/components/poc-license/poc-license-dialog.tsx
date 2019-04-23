@@ -26,7 +26,7 @@ interface SavePublisherFunc {
 }
 
 export interface PocLicenseDialogProps extends WithStyles<typeof styles> {
-    isActivation: any;
+    dialogObject: any;
     onSave: SavePublisherFunc;
     onCancel: React.EventHandler<any>;
 }
@@ -34,7 +34,7 @@ export interface PocLicenseDialogProps extends WithStyles<typeof styles> {
 export const PocLicenseDialog = withStyles(styles)(
     class extends React.Component<PocLicenseDialogProps> {
         render() {
-            const { classes, isActivation, onSave, onCancel } = this.props;
+            const { classes, dialogObject, onSave, onCancel } = this.props;
             const validationSchema = yup.object().shape({
                 name: yup.string().required()
             });
@@ -42,7 +42,7 @@ export const PocLicenseDialog = withStyles(styles)(
             return (
                 
                 <Formik
-                    initialValues={isActivation}
+                    initialValues={dialogObject.isActivation}
                     //validationSchema={validationSchema}
                     onSubmit={(values, { setSubmitting }) => {
                         onSave(values);
@@ -54,7 +54,7 @@ export const PocLicenseDialog = withStyles(styles)(
                             classes={{ paper: classes.dialogPaper }}
                         >
                             <DialogTitle>
-                                {isActivation ? 'Remote POC Activation' : 'Extend POC License'}
+                                {dialogObject.isActivation ? 'Remote POC Activation' : 'Extend POC License'}
                             </DialogTitle>
                             <DialogContent className={classes.content}>
                                 <Form>
@@ -64,6 +64,20 @@ export const PocLicenseDialog = withStyles(styles)(
                                         label="Domain Name"
                                         fullWidth
                                     />
+                                    { dialogObject.userObject.accountType === 'admin' ? [
+                                    <Field
+                                        name="companyName"
+                                        component={TextInput}
+                                        label="Company Name"
+                                        fullWidth
+                                    />,
+                                    <Field
+                                        name="numberOfDays"
+                                        component={TextInput}
+                                        label="Number Of Days (default to 10)"
+                                    fullWidth
+                                    />
+                                    ]: null }
                                 </Form>
                             </DialogContent>
                             <DialogActions>
@@ -71,7 +85,7 @@ export const PocLicenseDialog = withStyles(styles)(
                                     CANCEL
                                 </Button>
                                 <Button variant="outlined" onClick={submitForm} color="primary">
-                                    {isActivation ? 'ACTIVATE' : 'EXTEND'}
+                                    {dialogObject.isActivation ? 'ACTIVATE' : 'EXTEND'}
                                 </Button>
                             </DialogActions>
                         </Dialog>

@@ -46,7 +46,7 @@ export class PaidLicensePanel extends React.Component<PaidLicensePanelProps> {
                                     return;
                                 }
                                 return (
-                                    <TableRow>
+                                    <TableRow key={key}>
                                         <TableCell>{key}</TableCell>
                                         <TableCell>{licenses.license[key]}</TableCell>
                                         {/* <TableCell>{licenses.credit[key]}</TableCell>

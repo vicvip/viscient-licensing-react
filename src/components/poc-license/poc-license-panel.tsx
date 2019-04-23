@@ -80,18 +80,22 @@ export class PocLicensePanel extends React.Component<UserObjectProps> {
                             <TableCell>5</TableCell>
                         </TableRow>
                         <TableRow>
-                            <Button variant="outlined" size='large' color="primary" style={{marginLeft:'2%', marginTop: '2%'}}
-                                onClick={() => { this.extendDomain()}}
-                            >
-                                Extend POC machine
-                            </Button>
+                            <TableCell>
+                                <Button variant="outlined" size='large' color="primary" style={{marginLeft:'2%', marginTop: '2%'}}
+                                    onClick={() => { this.extendDomain()}}
+                                >
+                                    Extend POC machine
+                                </Button>
+                            </TableCell>
                         </TableRow>
                         <TableRow>
-                            <Button variant="outlined" size='large' color="primary" style={{marginLeft:'2%', marginTop: '2%'}}
-                                    onClick={() => { this.activateNewDomain()}}
-                            >
-                                Activation
-                            </Button>
+                                <TableCell>
+                                <Button variant="outlined" size='large' color="primary" style={{marginLeft:'2%', marginTop: '2%'}}
+                                        onClick={() => { this.activateNewDomain()}}
+                                >
+                                    Activation
+                                </Button>
+                            </TableCell>
                         </TableRow>
                         </TableBody>
                     </Table>
@@ -105,13 +109,23 @@ export class PocLicensePanel extends React.Component<UserObjectProps> {
                       {
                         mutation => (
                         <PocLicenseDialog
-                            isActivation ={ this.showActivationDialog }
+                            dialogObject ={ {isActivation: this.showActivationDialog, userObject: userObject} }
                             onSave = {dialogResult => {
-                                const variables = {
-                                    companyName: userObject.username,
-                                    domainName: dialogResult.domainName,
-                                    numberOfDays: 10
-                                };
+                                let variables;
+                                if(userObject.accountType === 'admin'){
+                                    variables = {
+                                        companyName: dialogResult.companyName,
+                                        domainName: dialogResult.domainName,
+                                        numberOfDays: Number(dialogResult.numberOfDays) || 10
+                                    };
+                                } else {
+                                    variables = {
+                                        companyName: userObject.username,
+                                        domainName: dialogResult.domainName,
+                                        numberOfDays: 10
+                                    };
+                                }
+                                
                                 mutation({
                                   variables
                                 });

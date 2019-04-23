@@ -10,6 +10,7 @@ export interface History{
 }
 
 export interface HistoryDetail {
+    id: string,
     username: string,
     actionType: string,
     domainName: string,

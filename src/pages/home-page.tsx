@@ -15,7 +15,8 @@ const styles = (theme: Theme) =>
         topPanel: {
             flex: 1,
             display: 'flex',
-            flexDirection: 'row'
+            flexDirection: 'row',
+            overflow: 'auto'
         },
         leftPanel: {
             flex: 1,

@@ -82,11 +82,12 @@ export const SignInContainerContent = withStyles(styles)(
 
     _confirm = data => {
       if (data.login.response === '200') {
-        this._saveUserData(data.login.token);
+        this._saveUserData(data.login.token, data.login.accountType);
         // var asd = localStorage.getItem('auth_token');
         // alert(asd);
         userObject.username = data.login.username;
-
+        userObject.accountType = data.login.accountType;
+        
         const { rootStore } = this.props;
         const { routerStore } = rootStore!;
         routerStore.goTo('home');
@@ -95,8 +96,9 @@ export const SignInContainerContent = withStyles(styles)(
       }
     };
 
-    _saveUserData = token => {
+    _saveUserData = (token, accountType) => {
       localStorage.setItem('auth_token', token)
+      localStorage.setItem('type', accountType)
     }
 
     public render() {

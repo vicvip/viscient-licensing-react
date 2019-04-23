@@ -55,7 +55,7 @@ export class HistoryPanel extends React.Component<HistoryPanelProps> {
                         <TableBody>
                             {
                                 history.historyDetail.map(h => (
-                                        <TableRow>
+                                        <TableRow key={h.id}>
                                             <TableCell>{h.dateCreated}</TableCell>
                                             <TableCell>{h.username}</TableCell>
                                             <TableCell>{h.actionType}</TableCell>

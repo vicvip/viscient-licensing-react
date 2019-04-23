@@ -7,6 +7,7 @@ export const VALIDATE_LOGIN = gql`
       message
       username
       token
+      accountType
     }
   }
 `;
