@@ -35,13 +35,24 @@ export const PocLicenseDialog = withStyles(styles)(
     class extends React.Component<PocLicenseDialogProps> {
         render() {
             const { classes, dialogObject, onSave, onCancel } = this.props;
-            const validationSchema = yup.object().shape({
-                name: yup.string().required()
-            });
+            // const validationSchema = yup.object().shape({
+            //     companyName: yup.string().required("asd"),
+            //     domainName: yup.string().required("zxc"),
+            //     numberOfDays: yup.number().required(),
+            //     accountType: yup.string().required()
+            // });
+
+            const initialFormValues = {
+                companyName: '',
+                domainName: '',
+                numberOfDays: '',
+                accountType: ''
+              };
+
             return (
                 
                 <Formik
-                    initialValues={dialogObject.isActivation}
+                    initialValues={initialFormValues}
                     //validationSchema={validationSchema}
                     onSubmit={(values, { setSubmitting }) => {
                         onSave(values);

@@ -4,11 +4,13 @@ import gql from 'graphql-tag';
 import { DefaultQuery } from '..';
 import { MutationType } from '../../graphql-types';
 import { PocLicensePanel } from './poc-license-panel';
-import { GET_HISTORY } from '../history/history-queries';
+import { QUERY_GET_COUNTER, SUBSCRIPTION_POC_COUNTER_MUTATED } from './poc-license-queries';
 import { PublisherMutated } from './__generated__/PublisherMutated';
 import { inject } from 'mobx-react';
 import { UserObject } from '../../stores';
 import { observer } from 'mobx-react';
+import { PocCounterSubscription, GetCounter } from './__generated__/PocCounter'
+import { checkIfStateModificationsAreAllowed } from 'mobx/lib/core/derivation';
 
 interface UserObjectProps {
     userObject?: UserObject
@@ -21,20 +23,21 @@ export class PocLicenseContainer extends React.Component<UserObjectProps> {
 
     render() {
         const { userObject } = this.props;
-         return  <PocLicensePanel />;//(
-        //     <DefaultQuery query={GET_HISTORY} variables={{ "username": userObject.username }}>
-        //         {({ data, subscribeToMore }) => {
-        //             // Subscribe to publisher mutations - only once
-        //             if (!this.unsubscribe) {
-        //                 // this.unsubscribe = subscribeToPublisherMutations(
-        //                 //     subscribeToMore
-        //                 // );
-        //             }
+         //return  <PocLicensePanel />;//(
+            return (
+            <DefaultQuery query={QUERY_GET_COUNTER} variables={{ "username": userObject.username }}>
+                {({ data, subscribeToMore }) => {
+                    // Subscribe to publisher mutations - only once
+                    if (!this.unsubscribe) {
+                        this.unsubscribe = subscribeToPocCounterMutated(
+                            subscribeToMore
+                        );
+                    }
 
-        //             return <PublishersPanel data={data} />;
-        //         }}
-        //     </DefaultQuery>
-        // );
+                    return <PocLicensePanel data={data} />;
+                }}
+            </DefaultQuery>
+        );
     }
 
     componentWillUnmount() {
@@ -44,6 +47,25 @@ export class PocLicenseContainer extends React.Component<UserObjectProps> {
     }
 }
 
+function subscribeToPocCounterMutated(subscribeToMore){
+    return subscribeToMore({
+        document: SUBSCRIPTION_POC_COUNTER_MUTATED,
+        updateQuery: (prev, { subscriptionData }) => {
+            const data = subscriptionData.data;
+            const getCounter: GetCounter = data.pocCounterMutated;
+            //console.log(getCounter)
+            if(!data) return prev;
+
+            //TODO - Maybe a check, and fix the typings
+
+            return Object.assign({}, prev, {
+                getCounter: getCounter
+            })
+        }
+    })
+}
+
+//const POC_COUNTER_MUTATED = 'pocCounterMutated'
 function subscribeToPublisherMutations(subscribeToMore) {
     return subscribeToMore({
         document: PUBLISHER_MUTATED,
@@ -95,6 +117,10 @@ function subscribeToPublisherMutations(subscribeToMore) {
 
 function findPublisher(publishers, publisherId) {
     return publishers.find(publisher => publisher.id === publisherId);
+}
+
+function checkCounter(prevCounter, newCounter) {
+    return prevCounter.find(prevCounter => prevCounter.pocLicenseCounter === newCounter);
 }
 
 const PUBLISHER_MUTATED = gql`

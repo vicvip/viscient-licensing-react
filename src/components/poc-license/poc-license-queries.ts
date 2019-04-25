@@ -34,3 +34,24 @@ export const POST_POC_LICENSE_EXTENSION = gql`
         }
     }
 `
+
+export const QUERY_GET_COUNTER = gql`
+    query GetCounter($username: String!){
+        getCounter(username: $username){
+            username
+            response
+            pocLicenseCounter
+        }
+    }
+`
+export const SUBSCRIPTION_POC_COUNTER_MUTATED = gql`
+    subscription PocCounterMutated {
+        pocCounterMutated{
+            username
+            pocLicenseCounter
+            response
+            accountType
+        }
+    }
+`
+

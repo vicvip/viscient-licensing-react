@@ -16,18 +16,20 @@ import { GetPublishers } from './__generated__/GetPublishers';
 import Button from '@material-ui/core/Button';
 import { POST_POC_LICENSE_ACTIVATION, POST_POC_LICENSE_EXTENSION } from './poc-license-queries';
 import { UserObject } from '../../stores';
+import { PocCounter } from './__generated__/PocCounter'
 
 export interface PublishersPanelProps {
     data: GetPublishers;
 }
 
-interface UserObjectProps {
+export interface PocLicensePanelProps {
     userObject?: UserObject
+    data: PocCounter
 }
 
 @inject('userObject')
 @observer
-export class PocLicensePanel extends React.Component<UserObjectProps> {
+export class PocLicensePanel extends React.Component<PocLicensePanelProps> {
     @observable showActivationDialog = false;
     @observable showExtensionDialog = false;
     @observable mutationOption = POST_POC_LICENSE_ACTIVATION;
@@ -38,7 +40,8 @@ export class PocLicensePanel extends React.Component<UserObjectProps> {
     //   };
 
     public render() {
-        const { userObject } = this.props;
+        const { userObject, data: { getCounter } } = this.props;
+        //console.log(getCounter.pocLicenseCounter);
         //const [showPocLicenseDialog, setShowPocLicenseDialog] = useState(false);
         // this.state ={
         //     setShowPocLicenseDialog: false
@@ -76,7 +79,7 @@ export class PocLicensePanel extends React.Component<UserObjectProps> {
                         </TableHead>
                         <TableBody>
                         <TableRow>
-                            <TableCell>5</TableCell>
+                            <TableCell>{getCounter.pocLicenseCounter}</TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell>
@@ -137,25 +140,6 @@ export class PocLicensePanel extends React.Component<UserObjectProps> {
                       }
                       </Mutation>
                 }
-
-                {/* {
-                    this.state.setShowPocLicenseDialog && <PublisherDialog
-                    publisher={"viscient"}
-                    onSave = {() => {
-                        const variables = {
-                            companyName: "test",
-                            domainName: "test",
-                            numberOfDays: 10
-                        };
-                        // mutation({
-                        //   variables
-                        // });
-                        hideActivateDialog();
-                        
-                      }}
-                    onCancel = {() => {hideActivateDialog()}}
-                />
-                } */}
             </React.Fragment>
         );
     }
