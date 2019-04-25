@@ -26,7 +26,6 @@ export class PaidLicensePanel extends React.Component<PaidLicensePanelProps> {
             <React.Fragment>
                 <PanelHeader
                     title="Paid License"
-                    onAddClicked={null}
                 />
                 <ScrollingPaper>
                     <Table>

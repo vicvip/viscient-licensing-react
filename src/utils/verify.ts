@@ -1,4 +1,4 @@
-import  { verify } from 'jsonwebtoken';
+import  { verify, sign } from 'jsonwebtoken';
 
 export const APP_SECRET = 'GraphQL-is-aw3some'
 
@@ -11,4 +11,14 @@ export function getUserId(token: any){
     //     const username  = verify(token, APP_SECRET);
     //     return username;
     // };
+}
+
+export function encryptAccountType(type){
+    const accountTypeToken = sign(type, APP_SECRET);
+    return accountTypeToken;
+}
+
+export function decryptAccountType(type){
+    const accountTypeToken = verify(type, APP_SECRET);
+    return accountTypeToken;
 }

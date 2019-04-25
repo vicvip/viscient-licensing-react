@@ -10,23 +10,27 @@ export const GET_PUBLISHERS = gql`
 `;
 
 export const POST_POC_LICENSE_ACTIVATION = gql`
-    mutation Activation($companyName: String!, $domainName: String!, $numberOfDays: Int!){
-        activation(companyName: $companyName, domainName: $domainName, numberOfDays: $numberOfDays){
+    mutation Activation($companyName: String!, $domainName: String!, $numberOfDays: Int!, $accountType: String){
+        activation(companyName: $companyName, domainName: $domainName, numberOfDays: $numberOfDays, accountType: $accountType){
             response
             message
             companyName
             mongoDbResponse
+            mailJetResponse
+            decrementResponse
         }
     }
 `
 
 export const POST_POC_LICENSE_EXTENSION = gql`
-    mutation Extension($companyName: String!, $domainName: String!, $numberOfDays: Int!){
-        extension(companyName: $companyName, domainName: $domainName, numberOfDays: $numberOfDays){
+    mutation Extension($companyName: String!, $domainName: String!, $numberOfDays: Int!, $accountType: String){
+        extension(companyName: $companyName, domainName: $domainName, numberOfDays: $numberOfDays, accountType: $accountType){
             response
             message
             companyName
             mongoDbResponse
+            mailJetResponse
+            decrementResponse
         }
     }
 `

@@ -7,15 +7,19 @@ import { Overrides } from '@material-ui/core/styles/overrides';
 export function getTheme(): Theme {
     const palette: PaletteOptions = {
         primary: {
-            main: '#1277eb',
-            dark: '#0366d6'
+            main: '#15b2ad',
+            //dark: '#15b2ad',
+            //light: 'linear-gradient(to right, #6befb8, #1CD8D2)'
         },
         secondary: {
-            main: '#28a745'
+            main: '#15b2ad',
+            light: 'white'
         },
         error: {
             main: red.A400
-        }
+        },
+
+        
     };
 
     const typography: TypographyOptions = {
@@ -30,8 +34,26 @@ export function getTheme(): Theme {
                 minHeight: 21,
                 padding: '3px 8px'
             }
+        },
+        MuiTableCell: {
+            head: {
+                fontWeight: 500,
+                color: 'black',
+                background: 'lightgrey'
+            }
         }
     };
 
     return createMuiTheme({ palette, typography, overrides });
 }
+
+
+// const CustomTableCell = withStyles(theme => ({
+//     head: {
+//       backgroundColor: theme.palette.common.black,
+//       color: theme.palette.common.white,
+//     },
+//     body: {
+//       fontSize: 14,
+//     },
+//   }))(TableCell);

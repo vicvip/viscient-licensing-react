@@ -17,17 +17,13 @@ const styles = (theme: Theme) =>
 
 export interface PanelHeaderProps extends WithStyles<typeof styles> {
     title: string;
-    onAddClicked: React.EventHandler<any>;
 }
 
 export const PanelHeader = withStyles(styles)(
-    ({ classes, title, onAddClicked }: PanelHeaderProps) => {
+    ({ classes, title }: PanelHeaderProps) => {
         return (
             <div className={classes.root}>
                 <Typography variant="h6">{title}</Typography>
-                {/* <Button size="small" color="primary" onClick={onAddClicked}>
-                    Add
-                </Button> */}
             </div>
         );
     }

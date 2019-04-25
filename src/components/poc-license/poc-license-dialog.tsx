@@ -38,7 +38,6 @@ export const PocLicenseDialog = withStyles(styles)(
             const validationSchema = yup.object().shape({
                 name: yup.string().required()
             });
-            console.log(this.props);
             return (
                 
                 <Formik
@@ -60,6 +59,7 @@ export const PocLicenseDialog = withStyles(styles)(
                                 <Form>
                                     <Field
                                         name="domainName"
+                                        key="domainName"
                                         component={TextInput}
                                         label="Domain Name"
                                         fullWidth
@@ -67,15 +67,17 @@ export const PocLicenseDialog = withStyles(styles)(
                                     { dialogObject.userObject.accountType === 'admin' ? [
                                     <Field
                                         name="companyName"
+                                        key="companyName"
                                         component={TextInput}
                                         label="Company Name"
                                         fullWidth
                                     />,
                                     <Field
                                         name="numberOfDays"
+                                        key="numberOfDays"
                                         component={TextInput}
                                         label="Number Of Days (default to 10)"
-                                    fullWidth
+                                        fullWidth
                                     />
                                     ]: null }
                                 </Form>

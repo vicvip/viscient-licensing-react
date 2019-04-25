@@ -40,11 +40,11 @@ export class HistoryPanel extends React.Component<HistoryPanelProps> {
 
         return (
             <React.Fragment>
-                <PanelHeader title="History" onAddClicked={null} />
+                <PanelHeader title="History" />
                 <ScrollingPaper>
                     <Table>
-                        <TableHead>
-                            <TableRow>
+                        <TableHead >
+                            <TableRow >
                                 <TableCell>Date Created</TableCell>
                                 <TableCell>User</TableCell>
                                 <TableCell>Action Type</TableCell>

@@ -44,7 +44,7 @@ const styles = (theme: Theme) =>
         root: {
             flex: 1,
             display: 'flex',
-            flexDirection: 'column'
+            flexDirection: 'column',
         }
     });
 

@@ -22,7 +22,6 @@ export class HistoryContainer extends React.Component<UserObjectProps> {
 
     render() {
         const { userObject } = this.props;
-        console.log(this.props)
         return (
             <DefaultQuery query={GET_HISTORY} variables={{ "username": userObject.username, "accountType": userObject.accountType }}>
                 {({ data, subscribeToMore }) => {

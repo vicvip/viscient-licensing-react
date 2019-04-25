@@ -66,7 +66,6 @@ export class PocLicensePanel extends React.Component<UserObjectProps> {
             <React.Fragment>
                 <PanelHeader
                     title="POC License"
-                    onAddClicked={null}
                 />
                 <ScrollingPaper>
                     <Table>
@@ -116,13 +115,15 @@ export class PocLicensePanel extends React.Component<UserObjectProps> {
                                     variables = {
                                         companyName: dialogResult.companyName,
                                         domainName: dialogResult.domainName,
-                                        numberOfDays: Number(dialogResult.numberOfDays) || 10
+                                        numberOfDays: Number(dialogResult.numberOfDays) || 10,
+                                        accountType: userObject.accountType
                                     };
                                 } else {
                                     variables = {
                                         companyName: userObject.username,
                                         domainName: dialogResult.domainName,
-                                        numberOfDays: 10
+                                        numberOfDays: 10,
+                                        accountType: userObject.accountType
                                     };
                                 }
                                 
@@ -141,7 +142,6 @@ export class PocLicensePanel extends React.Component<UserObjectProps> {
                     this.state.setShowPocLicenseDialog && <PublisherDialog
                     publisher={"viscient"}
                     onSave = {() => {
-                        console.log('yep')
                         const variables = {
                             companyName: "test",
                             domainName: "test",

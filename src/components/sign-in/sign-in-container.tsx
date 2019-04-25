@@ -21,7 +21,7 @@ import { Query, Mutation } from 'react-apollo';
 //import { routerStore } from 'react-router';
 import { RootStore, UserObject, userObject } from '../../stores';
 import { inject } from 'mobx-react';
-import { getUserId } from '../../utils/verify'; 
+import { getUserId, encryptAccountType } from '../../utils/verify'; 
 import { throwServerError } from 'apollo-link-http-common';
 import { HomePage } from './../../pages/home-page';
 import { action, observable } from 'mobx';
@@ -38,7 +38,9 @@ const styles = (theme: Theme) =>
       [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
         width: 400,
         marginLeft: 'auto',
-        marginRight: 'auto'
+        marginRight: 'auto',
+        marginBottom: 'auto',
+        marginTop: '7%'
       }
     },
     paper: {
@@ -59,6 +61,13 @@ const styles = (theme: Theme) =>
     },
     submit: {
       marginTop: theme.spacing.unit * 3
+    },
+    signInButtonStyle: {
+      background: 'linear-gradient(to left, #6befb8, #1CD8D2)',
+      color: theme.palette.secondary.light
+    },
+    validationMessage: {
+      color: theme.palette.error.main
     }
   });
 
@@ -67,17 +76,12 @@ export interface SignInProps extends WithStyles<typeof styles> {
   userObject?: UserObject;
 }
 
-//export const SignInButton = inject('rootStore')(
-
-//   inject(stores => ({
-//     value: stores.appState.value,
-// }))(MainCompClass);
-
 export const SignInContainerContent = withStyles(styles)(
   class extends React.Component<SignInProps> {
     state = {
       username: '',
       password: '',
+      showError: false, 
     };
 
     _confirm = data => {
@@ -92,18 +96,24 @@ export const SignInContainerContent = withStyles(styles)(
         const { routerStore } = rootStore!;
         routerStore.goTo('home');
       } else if (data.login.response === '404') {
-        alert('Invalid username or password');
+        //alert('Invalid username or password')
+        this.setState({
+          showError: true
+        });
       }
     };
 
     _saveUserData = (token, accountType) => {
       localStorage.setItem('auth_token', token)
-      localStorage.setItem('type', accountType)
+
+      const accountTypeToken = encryptAccountType(accountType);
+      localStorage.setItem('type', accountTypeToken)
     }
 
     public render() {
       // TODO - Mechanism to redirect user to Dashboard when local storage authentication exist
       localStorage.removeItem('auth_token');
+      localStorage.removeItem('type');
       const { classes } = this.props;
 
       return (
@@ -113,9 +123,19 @@ export const SignInContainerContent = withStyles(styles)(
             <Avatar className={classes.avatar}>
               <LockOutlinedIcon />
             </Avatar>
-            <Typography component="h1" variant="h5">
-              Sign in
+            <Typography component="h1" variant="h5" color="secondary">
+                Sign in
+            </Typography> 
+            <Typography component="h1" variant="subtitle2" color="textSecondary">
+              Viscient Licensing Portal
             </Typography>
+
+            { this.state.showError &&             
+              <Typography component="h1" variant="subtitle1" className={classes.validationMessage}>
+              Invalid username or password!
+            </Typography>
+            }
+            
             <form className={classes.form}>
               <FormControl margin="normal" required fullWidth>
                 <InputLabel htmlFor="username">Username</InputLabel>
@@ -159,8 +179,10 @@ export const SignInContainerContent = withStyles(styles)(
                     //type="submit"
                     fullWidth
                     variant="contained"
-                    color="inherit"
+                    color="primary"
                     size="large"
+                    className={classes.signInButtonStyle}
+                    //style = {{background: 'linear-gradient(to left, #6befb8, #1CD8D2)'}}
                     onClick={() => {
                       const variables = {
                         username: this.state.username,
@@ -176,6 +198,10 @@ export const SignInContainerContent = withStyles(styles)(
                 )}
               </Mutation>
             </form>
+
+            <Button component="h1" variant="text" style = {{marginTop: '10%', color: 'grey'}}>
+                Need Help?
+            </Button>
           </Paper>
         </main>
       );
@@ -188,7 +214,7 @@ export const SignInContainer = inject('rootStore', 'userObject')(SignInContainer
 @observer
 export class SignInPanel extends React.Component {
     @observable userName = 'test123';
-
+    //linear-gradient(to right, #bece15, #36a9c4)
     public render() {
       const {
         //userName: { userName }

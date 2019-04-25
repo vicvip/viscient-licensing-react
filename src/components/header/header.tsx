@@ -10,13 +10,17 @@ import { LogoutButton } from './logout-button';
 import { inject, observer } from 'mobx-react';
 import { RootStore, UserObject } from '../../stores';
 import { observable } from 'mobx';
-import { getUserId } from '../../utils/verify'
+import { getUserId, decryptAccountType } from '../../utils/verify'
+import { Theme } from '@material-ui/core/styles/createMuiTheme';
 
-const styles = () =>
+const styles = (theme: Theme) =>
     createStyles({
         title: {
             flex: 1,
             fontSize: 18
+        },
+        mainAppBar: {
+            color: theme.palette.secondary.light
         }
     });
 
@@ -38,7 +42,7 @@ const HeaderContent = withStyles(styles)(
             const { classes, username, accountType } = this.props;
             
             return (
-                <AppBar position="static">
+                <AppBar position="static" className={classes.mainAppBar}>
                     <Toolbar>
                         <HomeButton />
                         <Typography
@@ -76,14 +80,21 @@ export class Header extends React.Component<HeaderProps> {
 function authenticateUser(userObject, rootStore){
     const token = localStorage.getItem('auth_token');
     if(token === null || token == null){
-        //const { rootStore } = this.props;
         const { routerStore } = rootStore!;
         routerStore.goTo('signIn');
     } 
     else {
-        userObject.username = getUserId(token);
-        userObject.accountType = localStorage.getItem('type');
-        //TODO - auth account type in local storage
+        try{
+            userObject.username = getUserId(token);
+
+            const accountTypeToken = localStorage.getItem('type');
+            userObject.accountType = decryptAccountType(accountTypeToken);
+        } catch(ex){
+            console.log('Error decoding username or accountType');
+            console.log(ex);
+            const { routerStore } = rootStore!;
+            routerStore.goTo('signIn');
+        }
     }
     return userObject.username;
 }
