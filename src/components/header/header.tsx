@@ -9,7 +9,7 @@ import { SettingsButton } from './settings-button';
 import { LogoutButton } from './logout-button';
 import { inject, observer } from 'mobx-react';
 import { RootStore, UserObject } from '../../stores';
-import { observable } from 'mobx';
+import { observable, action } from 'mobx';
 import { getUserId, decryptAccountType } from '../../utils/verify'
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 
@@ -66,8 +66,7 @@ const HeaderContent = withStyles(styles)(
 export class Header extends React.Component<HeaderProps> {
     public render() {
         const { userObject, rootStore } = this.props;
-        var authUser = authenticateUser(userObject, rootStore);
-        userObject.username = authUser;
+        this.setUser(userObject, rootStore);
 
         return(
             <React.Fragment>
@@ -75,6 +74,13 @@ export class Header extends React.Component<HeaderProps> {
             </React.Fragment>
         )
     }
+
+    @action
+    setUser = (userObject, rootStore) => {
+        var authUser = authenticateUser(userObject, rootStore);
+        userObject.username = authUser;
+    };
+    
 }
 
 function authenticateUser(userObject, rootStore){
