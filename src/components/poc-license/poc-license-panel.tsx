@@ -13,22 +13,16 @@ import { observer, inject } from 'mobx-react';
 import { Mutation } from 'react-apollo';
 import { PanelHeader, ScrollingPaper } from '..';
 import { PocLicenseDialog } from './poc-license-dialog';
-import { GET_PUBLISHERS } from './poc-license-queries';
-import { GetPublishers } from './__generated__/GetPublishers';
 import Button from '@material-ui/core/Button';
 import { POST_POC_LICENSE_ACTIVATION, POST_POC_LICENSE_EXTENSION } from './poc-license-queries';
 import { UserObject } from '../../stores';
-import { PocCounter } from './__generated__/PocCounter'
+import { GetCounter } from './__generated__/GetCounter';
 import { Typography } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-export interface PublishersPanelProps {
-    data: GetPublishers;
-}
-
 export interface PocLicensePanelProps {
     userObject?: UserObject
-    data: PocCounter
+    data: GetCounter
 }
 
 @inject('userObject')

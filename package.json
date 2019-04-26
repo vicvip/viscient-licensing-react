@@ -9,6 +9,7 @@
     "eject": "react-scripts eject",
     "gql:schema": "apollo service:download -c apollo.config.js",
     "gql:types": "apollo client:codegen -c apollo.config.js --localSchemaFile=schema.json --target=typescript --globalTypesFile=src/graphql-types.ts",
+    "gql:types2": "apollo client:codegen -c apollo.config.js --localSchemaFile=schema.json --target=typescript",
     "format": "prettier --write 'src/**/*.ts*'",
     "now-build": "react-scripts build"
   },

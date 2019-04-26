@@ -2,15 +2,12 @@ import * as React from 'react';
 
 import gql from 'graphql-tag';
 import { DefaultQuery } from '..';
-import { MutationType } from '../../graphql-types';
 import { PocLicensePanel } from './poc-license-panel';
 import { QUERY_GET_COUNTER, SUBSCRIPTION_POC_COUNTER_MUTATED } from './poc-license-queries';
-import { PublisherMutated } from './__generated__/PublisherMutated';
 import { inject } from 'mobx-react';
 import { UserObject } from '../../stores';
 import { observer } from 'mobx-react';
-import { PocCounterSubscription, GetCounter } from './__generated__/PocCounter'
-import { checkIfStateModificationsAreAllowed } from 'mobx/lib/core/derivation';
+import { GetCounter } from './__generated__/GetCounter'
 
 interface UserObjectProps {
     userObject?: UserObject
@@ -65,73 +62,6 @@ function subscribeToPocCounterMutated(subscribeToMore){
     })
 }
 
-//const POC_COUNTER_MUTATED = 'pocCounterMutated'
-function subscribeToPublisherMutations(subscribeToMore) {
-    return subscribeToMore({
-        document: PUBLISHER_MUTATED,
-        updateQuery: (prev, { subscriptionData }) => {
-            const data: PublisherMutated = subscriptionData.data;
-            if (!data) return prev;
-
-            const publisherMutated = data.publisherMutated;
-
-            switch (publisherMutated.mutation) {
-                case MutationType.CREATED: {
-                    const newPublisher = publisherMutated.node;
-                    // Don't double add the publisher
-                    if (findPublisher(prev.publishers, newPublisher.id)) {
-                        return prev;
-                    } else {
-                        // Publisher not found, add it
-                        return Object.assign({}, prev, {
-                            publishers: [...prev.publishers, newPublisher]
-                        });
-                    }
-                }
-                case MutationType.UPDATED: {
-                    const updatedPublisher = publisherMutated.node;
-                    // Replace previous publisher with updated one
-                    return Object.assign({}, prev, {
-                        publishers: prev.publishers.map(publisher =>
-                            publisher.id === updatedPublisher.id
-                                ? updatedPublisher
-                                : publisher
-                        )
-                    });
-                }
-                case MutationType.DELETED: {
-                    const deletedPublisher = publisherMutated.node;
-                    // Delete publisher
-                    return Object.assign({}, prev, {
-                        publishers: prev.publishers.filter(
-                            publisher => publisher.id !== deletedPublisher.id
-                        )
-                    });
-                }
-                default:
-                    return prev;
-            }
-        }
-    });
-}
-
-function findPublisher(publishers, publisherId) {
-    return publishers.find(publisher => publisher.id === publisherId);
-}
-
 function checkCounter(prevCounter, newCounter) {
     return prevCounter.find(prevCounter => prevCounter.pocLicenseCounter === newCounter);
 }
-
-const PUBLISHER_MUTATED = gql`
-    subscription PublisherMutated {
-        publisherMutated {
-            mutation
-            node {
-                __typename
-                id
-                name
-            }
-        }
-    }
-`;

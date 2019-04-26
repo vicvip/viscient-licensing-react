@@ -11,24 +11,12 @@ import { action, observable } from 'mobx';
 import { observer } from 'mobx-react';
 import { Mutation } from 'react-apollo';
 import { PanelHeader, ScrollingPaper } from '..';
-import { GetAuthors } from '../paid-license/__generated__/GetAuthors';
-import { GetPublishers } from '../poc-license/__generated__/GetPublishers';
 import { AuthorsDialog } from './authors-dialog';
 import { BookDialog } from './book-dialog';
-import { GetBooks } from './__generated__/GetBooks';
-import { CreateBookVariables } from './__generated__/CreateBook';
-import { UpdateBookVariables } from './__generated__/UpdateBook';
-import { SetBookAuthorsVariables } from './__generated__/SetBookAuthors';
-import { GetHistory } from './__generated__/GetHistory';
-
-export interface BooksPanelProps {
-    dataBooks: GetBooks;
-    dataAuthors: GetAuthors;
-    dataPublishers: GetPublishers;
-}
+import { History } from './__generated__/History';
 
 export interface HistoryPanelProps {
-    data: GetHistory;
+    data: History;
 }
 
 @observer

@@ -9,10 +9,10 @@ import gql from 'graphql-tag';
 import { action, observable } from 'mobx';
 import { observer } from 'mobx-react';
 import { PanelHeader, ScrollingPaper } from '..';
-import { GetLicenses } from './__generated__/GetLicense';
+import { Licenses } from './__generated__/Licenses';
 
 export interface PaidLicensePanelProps {
-    data: GetLicenses;
+    data: Licenses;
 }
 
 @observer

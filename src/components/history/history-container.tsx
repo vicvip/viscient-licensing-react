@@ -2,14 +2,12 @@ import * as React from 'react';
 
 import gql from 'graphql-tag';
 import { DefaultQuery } from '..';
-import { MutationType } from '../../graphql-types';
 import { HistoryPanel } from './history-panel';
-import { BookMutated } from './__generated__/BookMutated';
 import { GET_HISTORY, SUBSCRIPTION_HISTORY_MUTATED } from './history-queries';
 import { inject } from 'mobx-react';
 import { UserObject } from '../../stores';
 import { observer } from 'mobx-react';
-import {HistoryDetail} from './__generated__/GetHistory'
+import {History_history_historyDetail} from './__generated__/History'
 import { reportObserved } from 'mobx/lib/core/observable';
 
 interface UserObjectProps {
@@ -53,7 +51,7 @@ function subscribeToHistoryMutated(subscribeToMore, userObject: UserObject){
         updateQuery: (prev, { subscriptionData }) => {
             const data = subscriptionData.data;
             console.log(data)
-            const historyMutated: HistoryDetail = data.historyMutated;
+            const historyMutated: History_history_historyDetail = data.historyMutated;
             if(!data) return prev;
 
             //TODO - Maybe a check, and fix the typings

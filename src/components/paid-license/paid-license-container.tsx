@@ -2,11 +2,8 @@ import * as React from 'react';
 
 import gql from 'graphql-tag';
 import { DefaultQuery } from '..';
-import { MutationType } from '../../graphql-types';
 import { PaidLicensePanel } from './paid-license-panel';
 import { GET_LICENSES } from './paid-license-queries';
-import { AuthorMutated } from './__generated__/AuthorMutated';
-import { Licenses } from './__generated__/GetLicense';
 import { inject } from 'mobx-react';
 import { UserObject } from '../../stores';
 import { observer } from 'mobx-react';

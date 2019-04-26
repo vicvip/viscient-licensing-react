@@ -1,7 +1,7 @@
 module.exports = {
     client: {
         service: {
-            name: "bookstore-service",
+            name: "viscient-licensing-graphql",
             url: "http://localhost:4000/",
         }
     }
