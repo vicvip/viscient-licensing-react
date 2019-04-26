@@ -5,6 +5,8 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
 import gql from 'graphql-tag';
 import { action, observable } from 'mobx';
 import { observer, inject } from 'mobx-react';
@@ -17,6 +19,8 @@ import Button from '@material-ui/core/Button';
 import { POST_POC_LICENSE_ACTIVATION, POST_POC_LICENSE_EXTENSION } from './poc-license-queries';
 import { UserObject } from '../../stores';
 import { PocCounter } from './__generated__/PocCounter'
+import { Typography } from '@material-ui/core';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 export interface PublishersPanelProps {
     data: GetPublishers;
@@ -32,6 +36,7 @@ export interface PocLicensePanelProps {
 export class PocLicensePanel extends React.Component<PocLicensePanelProps> {
     @observable showActivationDialog = false;
     @observable showExtensionDialog = false;
+    @observable showInsufficientCounterDialog = false;
     @observable mutationOption = POST_POC_LICENSE_ACTIVATION;
 
     // state = {
@@ -71,7 +76,46 @@ export class PocLicensePanel extends React.Component<PocLicensePanelProps> {
                     title="POC License"
                 />
                 <ScrollingPaper>
-                    <Table>
+
+                <Table>
+                    <TableHead >
+                        <TableRow >
+                            <TableCell>Number of POC License left this month:</TableCell>
+                        </TableRow>
+                    </TableHead>
+                </Table>
+                <Grid
+                container
+                direction="row"
+                justify="space-evenly"
+                alignItems="center"
+                style={{height: '50%'}}
+                >
+                    <Grid item xs={4}>
+                            <Typography component="h1" variant="h1" align="center">
+                                {getCounter.pocLicenseCounter}
+                            </Typography>
+                            <Typography component="h3" variant="subtitle2" align="center">
+                                credit(s)
+                            </Typography>
+                        
+                    </Grid>
+                    <Grid item xs={4}>
+                        <Button variant="outlined" size='large' color="primary" style={{marginLeft:'2%', marginTop: '2%'}}
+                            onClick={() => { this.extendDomain(getCounter.pocLicenseCounter)}}
+                        >
+                            Extend POC machine
+                        </Button>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <Button variant="outlined" size='large' color="primary" style={{marginLeft:'2%', marginTop: '2%'}}
+                                onClick={() => { this.activateNewDomain(getCounter.pocLicenseCounter)}}
+                        >
+                            Activation
+                        </Button>
+                    </Grid>
+                </Grid>
+                    {/* <Table>
                         <TableHead>
                             <TableRow>
                                 <TableCell>Number of POC License left this month:</TableCell>
@@ -79,12 +123,12 @@ export class PocLicensePanel extends React.Component<PocLicensePanelProps> {
                         </TableHead>
                         <TableBody>
                         <TableRow>
-                            <TableCell>{getCounter.pocLicenseCounter}</TableCell>
+                            <TableCell></TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell>
                                 <Button variant="outlined" size='large' color="primary" style={{marginLeft:'2%', marginTop: '2%'}}
-                                    onClick={() => { this.extendDomain()}}
+                                    onClick={() => { this.extendDomain(getCounter.pocLicenseCounter)}}
                                 >
                                     Extend POC machine
                                 </Button>
@@ -93,14 +137,14 @@ export class PocLicensePanel extends React.Component<PocLicensePanelProps> {
                         <TableRow>
                                 <TableCell>
                                 <Button variant="outlined" size='large' color="primary" style={{marginLeft:'2%', marginTop: '2%'}}
-                                        onClick={() => { this.activateNewDomain()}}
+                                        onClick={() => { this.activateNewDomain(getCounter.pocLicenseCounter)}}
                                 >
                                     Activation
                                 </Button>
                             </TableCell>
                         </TableRow>
                         </TableBody>
-                    </Table>
+                    </Table> */}
                 </ScrollingPaper>
 
                 {
@@ -140,34 +184,59 @@ export class PocLicensePanel extends React.Component<PocLicensePanelProps> {
                       }
                       </Mutation>
                 }
+
+                {
+                    this.showInsufficientCounterDialog && 
+                    <PocLicenseDialog
+                        dialogObject = {{isActivation: this.showActivationDialog, userObject: userObject, pocCounter: getCounter.pocLicenseCounter}}
+                        onSave = {() => {this.hideDialogs()}}
+                        onCancel = {() => {this.hideDialogs()}}
+                    />
+                }
             </React.Fragment>
         );
     }
 
     @action
-    activateNewDomain = () => {
+    activateNewDomain = (pocCounter) => {
         this.showActivationDialog = true;
         this.showExtensionDialog = false;
-        this.setMutation(this.showActivationDialog);
+        if(pocCounter <= 0){
+            this.insufficientCounterDialog();
+        }else{
+            this.setMutation(this.showActivationDialog);
+        }
     };
 
     @action
-    extendDomain = () => {
+    extendDomain = (pocCounter) => {
         this.showActivationDialog = false;
         this.showExtensionDialog = true;
-        this.setMutation(this.showActivationDialog);
+        if(pocCounter <= 0){
+            this.insufficientCounterDialog();
+        }else{
+            this.setMutation(this.showActivationDialog);
+        }
     };
 
     @action
     hideDialogs = () => {
         this.showActivationDialog = false;
         this.showExtensionDialog = false;
+        this.showInsufficientCounterDialog = false;
     }
 
     @action
     setMutation = (activationDialog) => {
         const mutationOption = activationDialog ? POST_POC_LICENSE_ACTIVATION : POST_POC_LICENSE_EXTENSION
         this.mutationOption = mutationOption;
+    }
+
+    @action
+    insufficientCounterDialog = () => {
+        this.showActivationDialog = false;
+        this.showExtensionDialog = false;
+        this.showInsufficientCounterDialog = true;
     }
 
 }

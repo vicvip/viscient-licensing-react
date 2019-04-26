@@ -1,9 +1,9 @@
 {
-  "short_name": "GraphQL Bookstore",
-  "name": "GraphQL Bookstore",
+  "short_name": "Viscient Licensing",
+  "name": "Viscient Licensing",
   "icons": [
     {
-      "src": "favicon.ico",
+      "src": "viscient-icon.ico",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     }

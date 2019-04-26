@@ -28,7 +28,7 @@ export class PocLicenseContainer extends React.Component<UserObjectProps> {
             <DefaultQuery query={QUERY_GET_COUNTER} variables={{ "username": userObject.username }}>
                 {({ data, subscribeToMore }) => {
                     // Subscribe to publisher mutations - only once
-                    if (!this.unsubscribe) {
+                    if (!this.unsubscribe && userObject.accountType !== 'admin') {
                         this.unsubscribe = subscribeToPocCounterMutated(
                             subscribeToMore
                         );
