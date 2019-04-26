@@ -17,3 +17,16 @@ export const GET_HISTORY = gql`
         }
     }
 `;
+
+export const SUBSCRIPTION_HISTORY_MUTATED = gql`
+    subscription HistoryMutated($username: String, $accountType: String){
+        historyMutated(username: $username, accountType: $accountType){
+            id
+            username
+            actionType
+            domainName
+            dateCreated
+            dateExpired
+        }
+    }
+`
