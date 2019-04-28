@@ -7,7 +7,7 @@ import { GET_HISTORY, SUBSCRIPTION_HISTORY_MUTATED } from './history-queries';
 import { inject } from 'mobx-react';
 import { UserObject } from '../../stores';
 import { observer } from 'mobx-react';
-import {History_history_historyDetail} from './__generated__/History'
+import { History_history_historyDetail } from './__generated__/History'
 import { reportObserved } from 'mobx/lib/core/observable';
 
 interface UserObjectProps {
@@ -50,7 +50,6 @@ function subscribeToHistoryMutated(subscribeToMore, userObject: UserObject){
         variables: { username: userObject.username, accountType: userObject.accountType},
         updateQuery: (prev, { subscriptionData }) => {
             const data = subscriptionData.data;
-            console.log(data)
             const historyMutated: History_history_historyDetail = data.historyMutated;
             if(!data) return prev;
 
@@ -66,10 +65,6 @@ function subscribeToHistoryMutated(subscribeToMore, userObject: UserObject){
             });
 
             return newHistory;
-            //console.log(zxc)
-            // return Object.assign({}, prev, {
-            //     getCounter: getCounter
-            // })
         }
     })
 }
